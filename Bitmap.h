@@ -1,10 +1,7 @@
 #ifndef BITMAP_HEADER
 #define BITMAP_HEADER
 
-#include <string>
-#include <fstream>
-
-using namespace std;
+#include <fstream>		//ifstream, ofstream
 
 struct BITMAP_FILE_HEADER
 {
@@ -38,18 +35,16 @@ public:
 	Bitmap(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader);
 	Bitmap(int width, int height, unsigned char * pixels);
 	Bitmap(int width, int height);
-	Bitmap(string filename);
+	Bitmap(char * filename);
 
-	void Open(string filename);
-	void Save(string filename);
-	void Save();
+	void Open(char * filename);
+	void Save(char * filename);
 
 	unsigned char * GetPixels(int * width, int * height);
 	void SetPixels(int width, int height, unsigned char * pixels);
 	void SetPixels(unsigned char * pixels);
 
 private:
-	string Filename;
 	unsigned char * PixelData;
 	int Padding;
 	BITMAP_FILE_HEADER FileHeader;
@@ -88,19 +83,17 @@ Bitmap::Bitmap(int width, int height)
 
 	this->PixelData = (unsigned char *)malloc(this->ImageHeader.ImageSize);
 }
-Bitmap::Bitmap(string filename)
+Bitmap::Bitmap(char * filename)
 {
 	this->Open(filename);
 }
 
-void Bitmap::Open(string filename)
+void Bitmap::Open(char * filename)
 {
 	if (this->PixelData)
 		free(this->PixelData);
-
-	this->Filename = filename;
-
-	ifstream file(this->Filename, ios::binary);
+	
+	std::ifstream file(filename, std::ios::binary);
 
 	char headers[SIZE_OF_HEADERS];
 	file.read(headers, SIZE_OF_HEADERS);
@@ -111,11 +104,9 @@ void Bitmap::Open(string filename)
 
 	file.close();
 }
-void Bitmap::Save(string filename)
+void Bitmap::Save(char * filename)
 {
-	this->Filename = filename;
-
-	ofstream file(this->Filename, ios::binary);
+	std::ofstream file(filename, std::ios::binary);
 
 	char * headers = this->GetHeaders();
 	file.write(headers, SIZE_OF_HEADERS);
@@ -124,10 +115,6 @@ void Bitmap::Save(string filename)
 	file.write((char *)this->PixelData, this->ImageHeader.ImageSize);
 
 	file.close();
-}
-void Bitmap::Save()
-{
-	this->Save(this->Filename);
 }
 
 unsigned char * Bitmap::GetPixels(int * width, int * height)
