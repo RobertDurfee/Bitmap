@@ -57,6 +57,8 @@ private:
 	void SetHeaders(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader);
 	void SetHeaders(char * headers);
 	char * GetHeaders();
+
+	void SetPadding();
 };
 Bitmap::Bitmap(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader)
 {
@@ -167,8 +169,7 @@ void Bitmap::SetPixels(unsigned char * pixels)
 
 void Bitmap::SetHeaders(int width, int height)
 {
-	if ((Padding = (4 - ((width * 3) % 4))) == 4)
-		Padding = 0; //Padding of 4 is illegal
+	SetPadding(width);
 
 	FileHeader.Type = 0x4D42; //"BM"
 	FileHeader.Reserved = 0x00000000;
@@ -193,33 +194,31 @@ void Bitmap::SetHeaders(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER image
 	FileHeader = fileHeader;
 	ImageHeader = imageHeader;
 
-	if ((Padding = (4 - ((ImageHeader.Width * 3) % 4))) == 4)
-		Padding = 0; //Padding of 4 is illegal
+	SetPadding(ImageHeader.Width);
 }
 void Bitmap::SetHeaders(char * headers)
 {
 	int index = 0;
 
 	//memcpy() is not used due to compiler-specfic structure padding
-	FileHeader.Type = *(unsigned short*)&headers[index];			index += sizeof(unsigned short);
-	FileHeader.Size = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
-	FileHeader.Reserved = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
-	FileHeader.Offset = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
+	FileHeader.Type = *(unsigned short*)&headers[index];					index += sizeof(unsigned short);
+	FileHeader.Size = *(unsigned long*)&headers[index];						index += sizeof(unsigned long);
+	FileHeader.Reserved = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
+	FileHeader.Offset = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
 
-	ImageHeader.Size = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
-	ImageHeader.Width = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
-	ImageHeader.Height = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
-	ImageHeader.Planes = *(unsigned short*)&headers[index];			index += sizeof(unsigned short);
-	ImageHeader.BitCount = *(unsigned short*)&headers[index];		index += sizeof(unsigned short);
-	ImageHeader.Compression = *(unsigned long*)&headers[index];		index += sizeof(unsigned long);
-	ImageHeader.ImageSize = *(unsigned long*)&headers[index];		index += sizeof(unsigned long);
-	ImageHeader.WidthPixelsPerMeter = *(unsigned long*)&headers[index];	index += sizeof(unsigned long);
+	ImageHeader.Size = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
+	ImageHeader.Width = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
+	ImageHeader.Height = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
+	ImageHeader.Planes = *(unsigned short*)&headers[index];					index += sizeof(unsigned short);
+	ImageHeader.BitCount = *(unsigned short*)&headers[index];				index += sizeof(unsigned short);
+	ImageHeader.Compression = *(unsigned long*)&headers[index];				index += sizeof(unsigned long);
+	ImageHeader.ImageSize = *(unsigned long*)&headers[index];				index += sizeof(unsigned long);
+	ImageHeader.WidthPixelsPerMeter = *(unsigned long*)&headers[index];		index += sizeof(unsigned long);
 	ImageHeader.HeightPixelsPerMeter = *(unsigned long*)&headers[index];	index += sizeof(unsigned long);
-	ImageHeader.pixelsUsed = *(unsigned long*)&headers[index];		index += sizeof(unsigned long);
+	ImageHeader.pixelsUsed = *(unsigned long*)&headers[index];				index += sizeof(unsigned long);
 	ImageHeader.Importantpixels = *(unsigned long*)&headers[index];
 
-	if ((Padding = (4 - ((ImageHeader.Width * 3) % 4))) == 4)
-		Padding = 0; //Padding of 4 is illegal
+	SetPadding(ImageHeader.Width);
 }
 char * Bitmap::GetHeaders()
 {
@@ -228,24 +227,30 @@ char * Bitmap::GetHeaders()
 	int index = 0;
 
 	//memcpy() is not used due to compiler-specfic structure padding
-	*(unsigned short*)&headers[index] = FileHeader.Type;			index += sizeof(unsigned short);
-	*(unsigned long*)&headers[index] = FileHeader.Size;			index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = FileHeader.Reserved;			index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = FileHeader.Offset;			index += sizeof(unsigned long);
+	*(unsigned short*)&headers[index] = FileHeader.Type;					index += sizeof(unsigned short);
+	*(unsigned long*)&headers[index] = FileHeader.Size;						index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = FileHeader.Reserved;					index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = FileHeader.Offset;					index += sizeof(unsigned long);
 
-	*(unsigned long*)&headers[index] = ImageHeader.Size;			index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.Width;			index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.Height;			index += sizeof(unsigned long);
-	*(unsigned short*)&headers[index] = ImageHeader.Planes;			index += sizeof(unsigned short);
-	*(unsigned short*)&headers[index] = ImageHeader.BitCount;		index += sizeof(unsigned short);
-	*(unsigned long*)&headers[index] = ImageHeader.Compression;		index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.ImageSize;		index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.WidthPixelsPerMeter;	index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.Size;					index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.Width;					index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.Height;					index += sizeof(unsigned long);
+	*(unsigned short*)&headers[index] = ImageHeader.Planes;					index += sizeof(unsigned short);
+	*(unsigned short*)&headers[index] = ImageHeader.BitCount;				index += sizeof(unsigned short);
+	*(unsigned long*)&headers[index] = ImageHeader.Compression;				index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.ImageSize;				index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.WidthPixelsPerMeter;		index += sizeof(unsigned long);
 	*(unsigned long*)&headers[index] = ImageHeader.HeightPixelsPerMeter;	index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.pixelsUsed;		index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.Importantpixels;	
-	
+	*(unsigned long*)&headers[index] = ImageHeader.pixelsUsed;				index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.Importantpixels;
+
 	return headers;
+}
+
+void Bitmap::SetPadding(int width)
+{
+	if ((Padding = (4 - ((width * 3) % 4))) == 4)
+		Padding = 0; //Padding of 4 is illegal
 }
 
 #endif
