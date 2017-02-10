@@ -201,21 +201,21 @@ void Bitmap::SetHeaders(char * headers)
 	int index = 0;
 
 	//memcpy() is not used due to compiler-specfic structure padding
-	FileHeader.Type = *(unsigned short*)&headers[index];					index += sizeof(unsigned short);
-	FileHeader.Size = *(unsigned long*)&headers[index];						index += sizeof(unsigned long);
-	FileHeader.Reserved = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
-	FileHeader.Offset = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
+	FileHeader.Type = *(unsigned short*)&headers[index];			index += sizeof(unsigned short);
+	FileHeader.Size = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
+	FileHeader.Reserved = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
+	FileHeader.Offset = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
 
-	ImageHeader.Size = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
-	ImageHeader.Width = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
-	ImageHeader.Height = *(unsigned long*)&headers[index];					index += sizeof(unsigned long);
-	ImageHeader.Planes = *(unsigned short*)&headers[index];					index += sizeof(unsigned short);
-	ImageHeader.BitCount = *(unsigned short*)&headers[index];				index += sizeof(unsigned short);
-	ImageHeader.Compression = *(unsigned long*)&headers[index];				index += sizeof(unsigned long);
-	ImageHeader.ImageSize = *(unsigned long*)&headers[index];				index += sizeof(unsigned long);
-	ImageHeader.WidthPixelsPerMeter = *(unsigned long*)&headers[index];		index += sizeof(unsigned long);
+	ImageHeader.Size = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
+	ImageHeader.Width = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
+	ImageHeader.Height = *(unsigned long*)&headers[index];			index += sizeof(unsigned long);
+	ImageHeader.Planes = *(unsigned short*)&headers[index];			index += sizeof(unsigned short);
+	ImageHeader.BitCount = *(unsigned short*)&headers[index];		index += sizeof(unsigned short);
+	ImageHeader.Compression = *(unsigned long*)&headers[index];		index += sizeof(unsigned long);
+	ImageHeader.ImageSize = *(unsigned long*)&headers[index];		index += sizeof(unsigned long);
+	ImageHeader.WidthPixelsPerMeter = *(unsigned long*)&headers[index];	index += sizeof(unsigned long);
 	ImageHeader.HeightPixelsPerMeter = *(unsigned long*)&headers[index];	index += sizeof(unsigned long);
-	ImageHeader.pixelsUsed = *(unsigned long*)&headers[index];				index += sizeof(unsigned long);
+	ImageHeader.pixelsUsed = *(unsigned long*)&headers[index];		index += sizeof(unsigned long);
 	ImageHeader.Importantpixels = *(unsigned long*)&headers[index];
 
 	SetPadding(ImageHeader.Width);
@@ -227,21 +227,21 @@ char * Bitmap::GetHeaders()
 	int index = 0;
 
 	//memcpy() is not used due to compiler-specfic structure padding
-	*(unsigned short*)&headers[index] = FileHeader.Type;					index += sizeof(unsigned short);
-	*(unsigned long*)&headers[index] = FileHeader.Size;						index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = FileHeader.Reserved;					index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = FileHeader.Offset;					index += sizeof(unsigned long);
+	*(unsigned short*)&headers[index] = FileHeader.Type;			index += sizeof(unsigned short);
+	*(unsigned long*)&headers[index] = FileHeader.Size;			index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = FileHeader.Reserved;			index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = FileHeader.Offset;			index += sizeof(unsigned long);
 
-	*(unsigned long*)&headers[index] = ImageHeader.Size;					index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.Width;					index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.Height;					index += sizeof(unsigned long);
-	*(unsigned short*)&headers[index] = ImageHeader.Planes;					index += sizeof(unsigned short);
-	*(unsigned short*)&headers[index] = ImageHeader.BitCount;				index += sizeof(unsigned short);
-	*(unsigned long*)&headers[index] = ImageHeader.Compression;				index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.ImageSize;				index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.WidthPixelsPerMeter;		index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.Size;			index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.Width;			index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.Height;			index += sizeof(unsigned long);
+	*(unsigned short*)&headers[index] = ImageHeader.Planes;			index += sizeof(unsigned short);
+	*(unsigned short*)&headers[index] = ImageHeader.BitCount;		index += sizeof(unsigned short);
+	*(unsigned long*)&headers[index] = ImageHeader.Compression;		index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.ImageSize;		index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.WidthPixelsPerMeter;	index += sizeof(unsigned long);
 	*(unsigned long*)&headers[index] = ImageHeader.HeightPixelsPerMeter;	index += sizeof(unsigned long);
-	*(unsigned long*)&headers[index] = ImageHeader.pixelsUsed;				index += sizeof(unsigned long);
+	*(unsigned long*)&headers[index] = ImageHeader.pixelsUsed;		index += sizeof(unsigned long);
 	*(unsigned long*)&headers[index] = ImageHeader.Importantpixels;
 
 	return headers;
