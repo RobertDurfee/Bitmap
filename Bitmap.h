@@ -3,7 +3,7 @@
 
 #include <fstream>		//ifstream, ofstream
 
-struct BITMAP_FILE_HEADER
+struct BitmapFileHeader
 {
 	unsigned short Type;
 	unsigned long Size;
@@ -11,7 +11,7 @@ struct BITMAP_FILE_HEADER
 	unsigned long Offset;
 };
 
-struct BITMAP_IMAGE_HEADER
+struct BitmapImageHeader
 {
 	unsigned long Size;
 	unsigned long Width;
@@ -32,8 +32,8 @@ struct BITMAP_IMAGE_HEADER
 class Bitmap
 {
 public:
-	Bitmap(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader, unsigned char * pixels);
-	Bitmap(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader);
+	Bitmap(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader, unsigned char * pixels);
+	Bitmap(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader);
 	Bitmap(int width, int height, unsigned char * pixels);
 	Bitmap(int width, int height);
 	Bitmap(char * filename);
@@ -50,23 +50,23 @@ public:
 private:
 	unsigned char * PixelData;
 	int Padding;
-	BITMAP_FILE_HEADER FileHeader;
-	BITMAP_IMAGE_HEADER ImageHeader;
+	BitmapFileHeader FileHeader;
+	BitmapImageHeader ImageHeader;
 
 	void SetHeaders(int width, int height);
-	void SetHeaders(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader);
+	void SetHeaders(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader);
 	void SetHeaders(char * headers);
 	char * GetHeaders();
 
 	void SetPadding();
 };
-Bitmap::Bitmap(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader)
+Bitmap::Bitmap(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader)
 {
 	SetHeaders(fileHeader, imageHeader);
 	
 	PixelData = (unsigned char *)malloc(ImageHeader.ImageSize);
 }
-Bitmap::Bitmap(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader, unsigned char * pixels)
+Bitmap::Bitmap(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader, unsigned char * pixels)
 {
 	SetHeaders(fileHeader, imageHeader);
 	
@@ -189,7 +189,7 @@ void Bitmap::SetHeaders(int width, int height)
 
 	FileHeader.Size = ImageHeader.ImageSize + 54;
 }
-void Bitmap::SetHeaders(BITMAP_FILE_HEADER fileHeader, BITMAP_IMAGE_HEADER imageHeader)
+void Bitmap::SetHeaders(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader)
 {
 	FileHeader = fileHeader;
 	ImageHeader = imageHeader;
