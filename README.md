@@ -1,6 +1,9 @@
 # Bitmap
 C++ class for bitmap file creating.
 
+### Disclaimer
+This is not production-worthy code! View this simply as a proof-of-concept.
+
 ### Initialization
 ```
 Bitmap(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader, unsigned char * pixels);
