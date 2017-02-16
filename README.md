@@ -1,4 +1,4 @@
-# Bitmap
+	# Bitmap
 C++ class for bitmap file creating.
 
 ### Disclaimer
@@ -58,7 +58,7 @@ The allocated pixels will be deallocated by the destructor.
 
 int main()
 {
-  unsigned char * pixels = (unsigned char *)malloc(WIDTH * HEIGHT * 3);
+	unsigned char * pixels = (unsigned char *)malloc(WIDTH * HEIGHT * 3);
 	memset(pixels, GREY, WIDTH * HEIGHT * 3);
 
 	Bitmap bmp(WIDTH, HEIGHT, pixels);
