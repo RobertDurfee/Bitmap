@@ -47,3 +47,24 @@ These are pretty self-explanatory methods that allow the user to set and get imp
 ~Bitmap();
 ```
 The allocated pixels will be deallocated by the destructor.
+
+### Example
+```
+#include "Bitmap.h"
+
+#define WIDTH 30
+#define HEIGHT 30
+#define GREY 128
+
+int main()
+{
+  unsigned char * pixels = (unsigned char *)malloc(WIDTH * HEIGHT * 3);
+	memset(pixels, GREY, WIDTH * HEIGHT * 3);
+
+	Bitmap bmp(WIDTH, HEIGHT, pixels);
+	bmp.Save("output.bmp");
+
+	return 0;
+}
+```
+Produces a 30 by 30 pixel image that is 50% grey and saves it as "output.bmp".
