@@ -58,7 +58,7 @@ private:
 	void SetHeaders(char * headers);
 	char * GetHeaders();
 
-	void SetPadding(int);
+	void SetPadding(int width);
 };
 Bitmap::Bitmap(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader)
 {
