@@ -58,7 +58,7 @@ private:
 	void SetHeaders(char * headers);
 	char * GetHeaders();
 
-	void SetPadding();
+	void SetPadding(int);
 };
 Bitmap::Bitmap(BitmapFileHeader fileHeader, BitmapImageHeader imageHeader)
 {
@@ -110,7 +110,7 @@ void Bitmap::Open(char * filename)
 	if (PixelData)
 		realloc(PixelData, ImageHeader.ImageSize);
 	else
-		PixelData = (char *)malloc(ImageHeader.ImageSize);
+		PixelData = (unsigned char *)malloc(ImageHeader.ImageSize);
 
 	file.read((char *)PixelData, ImageHeader.ImageSize);
 
