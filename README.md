@@ -40,7 +40,7 @@ unsigned char * GetPixels(int * width, int * height);
 void SetPixels(int width, int height, unsigned char * pixels);
 void SetPixels(unsigned char * pixels);
 ```
-These are pretty self-explanatory methods that allow the user to set and get important parts of the `Bitmap` file. The pixels should be specified as stringed RGB values each from `0-255`.
+These are pretty self-explanatory methods that allow the user to set and get important parts of the `Bitmap` file. The pixels should be specified as stringed RGB values each from `0-255`. The output of the `GetPixels` method needs to be deallocated by calling the standard `free` function.
 
 ### Deinitialization
 ```C++
