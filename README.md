@@ -49,7 +49,7 @@ These are pretty self-explanatory methods that allow the user to set and get imp
 The allocated pixels will be deallocated by the destructor.
 
 ### Structures
-```
+```C++
 struct BitmapFileHeader
 {
 	unsigned short Type;
