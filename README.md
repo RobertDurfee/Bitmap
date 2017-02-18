@@ -48,6 +48,33 @@ These are pretty self-explanatory methods that allow the user to set and get imp
 ```
 The allocated pixels will be deallocated by the destructor.
 
+### Structures
+```
+struct BitmapFileHeader
+{
+	unsigned short Type;
+	unsigned long Size;
+	unsigned long Reserved;
+	unsigned long Offset;
+};
+
+struct BitmapImageHeader
+{
+	unsigned long Size;
+	unsigned long Width;
+	unsigned long Height;
+	unsigned short Planes;
+	unsigned short BitCount;
+	unsigned long Compression;
+	unsigned long ImageSize;
+	unsigned long WidthPixelsPerMeter;
+	unsigned long HeightPixelsPerMeter;
+	unsigned long pixelsUsed;
+	unsigned long Importantpixels;
+};
+```
+These structures define the necessary headers for a `Bitmap` file. More information about these header fields and what they mean can be found [here](http://www.dragonwins.com/domains/getteched/bmp/bmpfileformat.htm).
+
 ### Example
 ```C++
 #include "Bitmap.h"
